@@ -186,3 +186,29 @@ XSS攻击的主要目的则是，想办法获取目标攻击网站的cookie，�
     
 用promise或Generator，[大神的写法](https://github.com/tj/co)
 
+-
+
+13、淘宝那里的商品项，如图片，滚动到了才加载，你知道怎么实现么
+
+即lazyload，核心原理是：
+
+1 设置一个定时器，计算每张图片是否会随着滚动条的滚动，而出现在视口（也就是浏览器中的 展现网站的空白部分 ）中；
+
+2 为<img>标签设置一个暂存图片URL的自定义属性（例如loadpic），当图片出现在视口时，再将loadpic的值赋给图片的src属性；
+
+-
+
+14、实现1px 像素线条
+    
+能用border-width: 0.5px就用
+
+伪类 + transform，原理是把原先元素的 border 去掉，然后利用:before或者:after重做 border ，并 transform 的 scale 缩小一半，原先的元素相对定位，新做的 border 绝对定位
+
+-
+
+15、你知道什么是CSS reset么？
+
+即重制浏览器默认样式，用不用CSS reset，取决于“是否需要依赖浏览器默认样式”，至于额外的计算成本可基本忽略
+
+
+
