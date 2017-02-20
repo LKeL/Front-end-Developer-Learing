@@ -208,6 +208,67 @@ XSS攻击的主要目的则是，想办法获取目标攻击网站的cookie，�
 15、你知道什么是CSS reset么？
 
 即重制浏览器默认样式，用不用CSS reset，取决于“是否需要依赖浏览器默认样式”，至于额外的计算成本可基本忽略
-我自己的解决办法是使用Normalize.css
+我自己的解决办法是使用Normalize.css统一所有各版本浏览器的样式
+
+-
+
+16、说出前端link和import的区别
+
+link是html标签，import为css提供的功能
+import比link其实更延迟一些，它会等到页面下载完后才加载，因而可能会产生闪烁
+由于@import是CSS2.1提出的所以老的浏览器不支持，@import只有在IE5以上的才能识别，而link标签无此问题
+
+-
+
+17、让你设计一个web站点，假如只有你一个人设计实现，前端后端都让你一个人负责，具体你要怎么做？
+
+需求文档（需求明确），后端数据设计，前端界面设计，前端静态页面实现，前端动态逻辑（与后端数据接口）实现，整体实现，还有细节实现
+
+18、实现一个LazyMan
+
+```javascript
+function _LazyMan(callback) {
+    this.tasks = [];
+    let self = this;
+    let fn = ((n) => {
+        return function() {
+            callback()
+            self.next();
+        }
+    })(callback);
+    this.tasks.push(fn)
+    setTimeout(()=>{
+        self.next();
+    }, 0);
+}
+
+_LazyMan.prototype.next = function() {
+    let fn = this.tasks.shift();
+    fn && fn.bind(this)();
+}
+
+_LazyMan.prototype.then = function(callback) {
+    let self = this;
+    let fn = () => {
+        return () => {
+            callback();
+            self.next();
+        }
+    }
+    this.tasks.push(fn());
+    return this;
+}
+
+function LazyMan(callback) {
+    return new _LazyMan(callback)
+}
+
+LazyMan(()=>{console.log('LazyMan')})
+.then(()=>{console.log('eat something')})
+.then(()=>{setTimeout(()=>{console.log('sleep')}, 1000)})
+
+()和function
+
+```
 
 
